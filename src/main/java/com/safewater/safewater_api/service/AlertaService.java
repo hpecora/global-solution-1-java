@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AlertaService {
@@ -19,6 +20,20 @@ public class AlertaService {
 
     @Autowired
     private AreaDeRiscoRepository areaRepository;
+
+
+    public List<AlertaDTO> buscarTodosDTO() {
+        return alertaRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    // NOVO: Buscar por ID com DTO
+    public Optional<AlertaDTO> buscarDTO(Long id) {
+        return alertaRepository.findById(id)
+                .map(this::toDTO);
+    }
 
     public List<Alerta> buscarTodos() {
         return alertaRepository.findAll();
@@ -66,5 +81,25 @@ public class AlertaService {
             return true;
         }
         return false;
+    }
+
+
+    private AlertaDTO toDTO(Alerta alerta) {
+        AlertaDTO dto = new AlertaDTO();
+        dto.setId(alerta.getId());
+        dto.setDescricao(alerta.getDescricao());
+        dto.setTipo(alerta.getTipo());
+        dto.setStatus(alerta.getStatus());
+        dto.setNivelAgua(alerta.getNivelAgua());
+        dto.setDataHora(alerta.getDataHora());
+        dto.setAreaId(alerta.getArea().getId());
+
+        AreaDeRisco area = alerta.getArea();
+        if (area != null) {
+            dto.setBairro(area.getBairro());
+            dto.setNivelRisco(area.getNivelRisco());
+        }
+
+        return dto;
     }
 }

@@ -2,19 +2,14 @@ package com.safewater.safewater_api.dto;
 
 import java.time.LocalDateTime;
 
-public class AlertaDTO {
-
+public class AlertaDetalhadoDTO {
     private Long id;
     private String descricao;
     private String tipo;
     private String status;
     private Double nivelAgua;
     private LocalDateTime dataHora;
-    private Long areaId;
-
-
-    private String bairro;
-    private String nivelRisco;
+    private AreaDeRiscoDTO area;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -34,12 +29,6 @@ public class AlertaDTO {
     public LocalDateTime getDataHora() { return dataHora; }
     public void setDataHora(LocalDateTime dataHora) { this.dataHora = dataHora; }
 
-    public Long getAreaId() { return areaId; }
-    public void setAreaId(Long areaId) { this.areaId = areaId; }
-
-    public String getBairro() { return bairro; }
-    public void setBairro(String bairro) { this.bairro = bairro; }
-
-    public String getNivelRisco() { return nivelRisco; }
-    public void setNivelRisco(String nivelRisco) { this.nivelRisco = nivelRisco; }
+    public AreaDeRiscoDTO getArea() { return area; }
+    public void setArea(AreaDeRiscoDTO area) { this.area = area; }
 }

@@ -1,7 +1,9 @@
 package com.safewater.safewater_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,5 +33,6 @@ public class Alerta {
 
     @ManyToOne
     @JoinColumn(name = "AREA_ID")
+    @JsonIgnoreProperties("alertas")
     private AreaDeRisco area;
 }

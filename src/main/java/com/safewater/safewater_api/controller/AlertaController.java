@@ -8,23 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/alertas") // corrigido
+@RequestMapping("/api/alertas")
 public class AlertaController {
 
     @Autowired
     private AlertaService alertaService;
 
     @GetMapping
-    public ResponseEntity<List<Alerta>> listar() {
-        return ResponseEntity.ok(alertaService.buscarTodos());
+    public ResponseEntity<List<AlertaDTO>> listar() {
+        return ResponseEntity.ok(alertaService.buscarTodosDTO());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Alerta> buscar(@PathVariable Long id) {
-        return alertaService.buscarPorId(id)
+    public ResponseEntity<AlertaDTO> buscar(@PathVariable Long id) {
+        return alertaService.buscarDTO(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -5,7 +5,7 @@ public class RotaSeguraDTO {
     private String origem;
     private String destino;
     private String instrucoes;
-    private AreaDeRiscoDTO area;  // Alteração importante aqui
+    private Long areaId;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -19,6 +19,6 @@ public class RotaSeguraDTO {
     public String getInstrucoes() { return instrucoes; }
     public void setInstrucoes(String instrucoes) { this.instrucoes = instrucoes; }
 
-    public AreaDeRiscoDTO getArea() { return area; }
-    public void setArea(AreaDeRiscoDTO area) { this.area = area; }
+    public Long getAreaId() { return areaId; }
+    public void setAreaId(Long areaId) { this.areaId = areaId; }
 }

@@ -1,7 +1,9 @@
 package com.safewater.safewater_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.util.List;
 
 @Entity
@@ -32,6 +34,7 @@ public class AreaDeRisco {
     private Double longitude;
 
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Alerta> alertas;
 
     @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -13,44 +13,47 @@ import java.util.Optional;
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepository repository;
+    private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> listarTodos() {
-        return repository.findAll();
+    public List<Usuario> buscarTodos() {
+        return usuarioRepository.findAll();
     }
 
     public Optional<Usuario> buscarPorId(Long id) {
-        return repository.findById(id);
+        return usuarioRepository.findById(id);
     }
 
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return usuarioRepository.findFirstByEmail(email);
+    }
     public Usuario salvar(UsuarioDTO dto) {
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setSenha(dto.getSenha());
         usuario.setCidade(dto.getCidade());
-        return repository.save(usuario);
+        usuario.setSenha(dto.getSenha());
+        return usuarioRepository.save(usuario);
     }
 
     public Usuario atualizar(Long id, UsuarioDTO dto) {
-        return repository.findById(id).map(usuario -> {
+        Optional<Usuario> existente = usuarioRepository.findById(id);
+        if (existente.isPresent()) {
+            Usuario usuario = existente.get();
             usuario.setNome(dto.getNome());
             usuario.setEmail(dto.getEmail());
-            usuario.setSenha(dto.getSenha());
             usuario.setCidade(dto.getCidade());
-            return repository.save(usuario);
-        }).orElse(null);
+            usuario.setSenha(dto.getSenha());
+            return usuarioRepository.save(usuario);
+        }
+        return null;
     }
 
     public boolean deletar(Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        Optional<Usuario> existente = usuarioRepository.findById(id);
+        if (existente.isPresent()) {
+            usuarioRepository.deleteById(id);
             return true;
         }
         return false;
-    }
-
-    public List<Usuario> buscarTodos() {
-        return repository.findAll();
     }
 }

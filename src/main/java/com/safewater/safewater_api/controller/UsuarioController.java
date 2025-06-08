@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -36,6 +39,25 @@ public class UsuarioController {
     public ResponseEntity<Usuario> criar(@RequestBody UsuarioDTO usuarioDTO) {
         Usuario novoUsuario = usuarioService.salvar(usuarioDTO);
         return ResponseEntity.ok(novoUsuario);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UsuarioDTO usuarioDTO) {
+        Optional<Usuario> usuarioOpt = usuarioService.buscarPorEmail(usuarioDTO.getEmail());
+
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            if (usuario.getSenha().equals(usuarioDTO.getSenha())) {
+                // Monta resposta com token + nome
+                Map<String, String> resposta = new HashMap<>();
+                resposta.put("token", "fake-jwt-token");
+                resposta.put("nome", usuario.getNome());
+
+                return ResponseEntity.ok(resposta);
+            }
+        }
+
+        return ResponseEntity.status(401).body("Credenciais inválidas");
     }
 
     @PutMapping("/{id}")
